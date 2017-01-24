@@ -1,0 +1,37 @@
+Muon is a Forge mod for Minecraft 1.10.2 inspired by Quark.
+
+Its primary focus is to improve and enhance Villages in keeping with 
+the style and spirit of Vanilla Minecraft.
+
+The main site for this mod is at http://muon.mc.izno.gd/
+
+Muon is by nature a CoreMod. This means it hooks parts of the 
+minecraft source in ways not usually required by Minecraft mods and 
+is therefore minecraft-version specific. 
+
+Versions for newer versions of minecraft may become available as we 
+start playing them. :)
+
+Every aspect of this mod has been given a config option so you can 
+tweak it to your heart's delight and use as much or as little of it 
+as you wish. 
+
+Generally the config options that fix deficiencies in Vanilla default 
+to True, and setting all options to False will revert to pure vanilla 
+behaviour. Options that significantly enhance or change vanilla mechanics 
+need to be enabled explicitly. The default settings should result in 
+improved vanilla world generation and gameplay without adding anything new.
+
+Future development direction is intended to add tweaks to the mechanics
+of villagers, and add additional villager types for miners and foresters.
+
+THIS MOD IS CURRENTLY *ALPHA* QUALITY.
+
+All commited code has had rudimentary testing, but has not yet been 
+given significant exercise in the real world of multiplayer minecraft.
+
+If you want to use it in a modpack you are most welcome to with proper 
+attribution, but please keep in mind that you will bear full 
+responsibility for all support as a result of doing so. Also, dropping 
+us a note to tell us where you're using it would be most appreciated!
+

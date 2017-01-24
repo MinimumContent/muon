@@ -1,0 +1,21 @@
+# temporary directories, etc
+/build
+/.gradle
+/.idea
+/out
+/run
+/debug.log
+/tmp
+# eclipse related stuff, so no-one contaminates the repo
+/bin
+/.settings
+/.classpath
+/.loadpath
+/.metadata
+/.project
+/eclipse
+# editor temporary files
+*~
+\#*
+*.swp
+

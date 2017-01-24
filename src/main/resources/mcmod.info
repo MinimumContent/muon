@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "muon",
+    "name": "Muon",
+    "description": "Better Villages and Villagers!",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "http://muon.mc.izno.gd/",
+    "updateUrl": "",
+    "authorList": [
+      "TrinaryLogic"
+    ],
+    "credits": "",
+    "logoFile": "/assets/muon/muon_logo.png",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
