@@ -299,8 +299,9 @@ public class MuonClassTransformer implements IClassTransformer {
                         <WE ARE HERE> int k = 0;
                          */
                         FMLLog.info("[Muon ASM] %s", "Patching MapGenVillage.Start(): " + method.name.toString() + " " + method.desc.toString());
-                        LabelNode newLabelNode = new LabelNode();
                         InsnList toInsert = new InsnList();
+
+                        LabelNode newLabelNode = new LabelNode();
                         // Check if hook is enabled
                         toInsert.add(new LdcInsnNode("smooth_village_terrain"));
                         toInsert.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(MuonConfig.class), "getBoolean", "(Ljava/lang/String;)Z", false));
@@ -311,6 +312,19 @@ public class MuonClassTransformer implements IClassTransformer {
                         toInsert.add(new VarInsnNode(ALOAD, 7));
                         toInsert.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(MuonHooks.class), "villageModTerrain", START_INIT_TERRAIN_DESC, false));
                         toInsert.add(newLabelNode);
+
+                        LabelNode newLabelNode2 = new LabelNode();
+                        // Check if next hook is enabled
+                        toInsert.add(new LdcInsnNode("terrain_dependent_structures"));
+                        toInsert.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(MuonConfig.class), "getBoolean", "(Ljava/lang/String;)Z", false));
+                        toInsert.add(new JumpInsnNode(IFEQ, newLabelNode2)); // skip if equal to zero (false)
+                        // conditionally run hook
+                        toInsert.add(new VarInsnNode(ALOAD, 0));
+                        toInsert.add(new VarInsnNode(ALOAD, 1));
+                        toInsert.add(new VarInsnNode(ALOAD, 7));
+                        toInsert.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(MuonHooks.class), "terrainDependentStructures", START_INIT_TERRAIN_DESC, false));
+                        toInsert.add(newLabelNode2);
+
                         // this goes before k=0
                         method.instructions.insertBefore(instruction, toInsert);
                         break;

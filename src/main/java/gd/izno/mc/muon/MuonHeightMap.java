@@ -28,8 +28,9 @@ public class MuonHeightMap {
     public int xSize;
     public int zSize;
     public int seaLevel;
+    public World world;
 
-    public MuonHeightMap(StructureBoundingBox bb) {
+    public MuonHeightMap(World worldIn, StructureBoundingBox bb) {
         mapbb = MuonUtils.chunksBoundingBox(bb);
         mapbb.minY = 0;
         mapbb.maxY = 4096;
@@ -41,12 +42,17 @@ public class MuonHeightMap {
                 heightmap[i][j] = -1;
             }
         }
-        seaLevel = -1; // Fix up at first opportunity.
+        world = worldIn;
+        if (worldIn != null) {
+            seaLevel =  worldIn.getSeaLevel() - 1; // set sea level.
+        } else {
+            seaLevel = -1; // Fix up at first opportunity.
+        }
         isBlank = true;
     }
 
     public static MuonHeightMap defaultHeights(World worldIn, StructureBoundingBox bb) {
-        MuonHeightMap hm = new MuonHeightMap(bb);
+        MuonHeightMap hm = new MuonHeightMap(worldIn, bb);
         // try to load default map heights from terrain generator
         IChunkProvider provider = worldIn.getChunkProvider();
         IChunkGenerator gen = null;
@@ -209,6 +215,9 @@ public class MuonHeightMap {
         int smEndZ = smoothbb.maxZ;
         int[][] pointlist = new int[((smoothbb.getXSize()+2)*(smoothbb.getZSize()+2))/*/2*/+1][3];
         int numpoints = 0;
+        if (world == null) {
+            world = hm.world;
+        }
         if (seaLevel == -1) {
             seaLevel = hm.seaLevel; // propogate meaningful value, if possible.
         }

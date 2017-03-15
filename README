@@ -1,4 +1,4 @@
-Muon is a Forge mod for Minecraft 1.10.2 inspired by Quark.
+Muon is a Forge mod for Minecraft versions 1.9-1.11 inspired by Quark.
 
 Its primary focus is to improve and enhance Villages in keeping with 
 the style and spirit of Vanilla Minecraft.
@@ -12,18 +12,40 @@ is therefore minecraft-version specific.
 Versions for newer versions of minecraft may become available as we 
 start playing them. :)
 
-Every aspect of this mod has been given a config option so you can 
-tweak it to your heart's delight and use as much or as little of it 
-as you wish. 
+Muon 0.2 (Alpha) features:
+* An option for Village Groves: a dense stand of trees in villages.
+* Initial pass at code for terain-dependent structures (Structures
+  added after initial village generation but before chunk creation)
+* Added option to default future features to enabled.
+* Added code to check for new Muon versions.
+* Fixed bug reading our own mcmod.info on Windows.
+* Fixed crash when encountering modded buildings without a facing.
 
-Generally the config options that fix deficiencies in Vanilla default 
-to True, and setting all options to False will revert to pure vanilla 
-behaviour. Options that significantly enhance or change vanilla mechanics 
-need to be enabled explicitly. The default settings should result in 
-improved vanilla world generation and gameplay without adding anything new.
+Muon 0.1 (Alpha) features:
+* An option to fix "broken" terrain around villages, ensuring paths
+  are always accessible within a village and don't drop off the side
+  of mountains.
+* A fix for vertical building placement in villages to eliminate the all
+  too common problem of inaccessible elevated or buried doors.
+* An option to use alternate path generation code to make them look
+  a bit better, and also create simple bridges across small rivers.
+* An option to ensure scattered features like temples and igloos are
+  always accessible. Igloos would sometimes spawn *INSIDE* hills.
+* No change in the number of randoms taken from the seed pool, so your
+  world seeds still generate the same world!
 
 Future development direction is intended to add tweaks to the mechanics
 of villagers, and add additional villager types for miners and foresters.
+
+Every aspect of this mod has been given a config option so you can
+tweak it to your heart's delight and use as much or as little of it
+as you wish.
+
+Generally the config options that fix deficiencies in Vanilla default
+to True, and setting all options to False will revert to pure vanilla
+behaviour. Options that significantly enhance or change vanilla mechanics
+need to be enabled explicitly. The default settings should result in
+improved vanilla world generation and gameplay without adding anything new.
 
 THIS MOD IS CURRENTLY *ALPHA* QUALITY.
 
@@ -34,4 +56,3 @@ If you want to use it in a modpack you are most welcome to with proper
 attribution, but please keep in mind that you will bear full 
 responsibility for all support as a result of doing so. Also, dropping 
 us a note to tell us where you're using it would be most appreciated!
-

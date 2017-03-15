@@ -25,8 +25,10 @@ public class MuonGuiFactory implements IModGuiFactory {
         return null;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
+        // This doesn't do anything, but MUST be overridden.
         return null;
     }
 }

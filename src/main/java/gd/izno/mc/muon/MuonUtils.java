@@ -41,46 +41,55 @@ public class MuonUtils {
         return new StructureBoundingBox(in.minX&~15,in.minY&~15,in.minZ&~15,in.maxX|15,in.maxY|15,in.maxZ|15);
     }
 
+
     public static StructureBoundingBox biasBoundingBox(StructureComponent in, int distance) {
-        StructureBoundingBox bb = in.getBoundingBox();
-        switch (in.getCoordBaseMode()) {
-            case NORTH:
-                return new StructureBoundingBox(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ + distance);
-            case SOUTH:
-                return new StructureBoundingBox(bb.minX, bb.minY, bb.minZ - distance, bb.maxX, bb.maxY, bb.maxZ);
-            case WEST:
-                return new StructureBoundingBox(bb.minX, bb.minY, bb.minZ, bb.maxX + distance, bb.maxY, bb.maxZ);
-            case EAST:
-                return new StructureBoundingBox(bb.minX - distance, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ);
-            case UP:
-                return new StructureBoundingBox(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY + distance, bb.maxZ);
-            case DOWN:
-                return new StructureBoundingBox(bb.minX, bb.minY - distance, bb.minZ, bb.maxX, bb.maxY, bb.maxZ);
-            default:
-                return new StructureBoundingBox(bb.minX - distance, bb.minY - distance, bb.minZ - distance, bb.maxX + distance, bb.maxY + distance, bb.maxZ + distance);
+        return biasBoundingBox(in.getBoundingBox(), in.getCoordBaseMode(), distance);
+    }
+
+    public static StructureBoundingBox biasBoundingBox(StructureBoundingBox bb, EnumFacing facing, int distance) {
+        if (facing != null) {
+            switch (facing) {
+                case NORTH:
+                    return new StructureBoundingBox(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ + distance);
+                case SOUTH:
+                    return new StructureBoundingBox(bb.minX, bb.minY, bb.minZ - distance, bb.maxX, bb.maxY, bb.maxZ);
+                case WEST:
+                    return new StructureBoundingBox(bb.minX, bb.minY, bb.minZ, bb.maxX + distance, bb.maxY, bb.maxZ);
+                case EAST:
+                    return new StructureBoundingBox(bb.minX - distance, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ);
+                case UP:
+                    return new StructureBoundingBox(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY + distance, bb.maxZ);
+                case DOWN:
+                    return new StructureBoundingBox(bb.minX, bb.minY - distance, bb.minZ, bb.maxX, bb.maxY, bb.maxZ);
+            }
         }
+        return new StructureBoundingBox(bb.minX - distance, bb.minY - distance, bb.minZ - distance, bb.maxX + distance, bb.maxY + distance, bb.maxZ + distance);
     }
 
     public static StructureBoundingBox facingBoundingBox(StructureComponent in, int distance) {
-        StructureBoundingBox bb = in.getBoundingBox();
+        return facingBoundingBox(in.getBoundingBox(), in.getCoordBaseMode(), distance);
+    }
+
+    public static StructureBoundingBox facingBoundingBox(StructureBoundingBox bb, EnumFacing facing, int distance) {
         int maxoffs = distance > 0 ? distance : 0;
         int minoffs = distance < 0 ? -distance : 0;
-        switch (in.getCoordBaseMode()) {
-            case NORTH:
-                return new StructureBoundingBox(bb.minX, bb.minY, bb.maxZ - minoffs, bb.maxX, bb.maxY, bb.maxZ + maxoffs);
-            case SOUTH:
-                return new StructureBoundingBox(bb.minX, bb.minY, bb.minZ - maxoffs, bb.maxX, bb.maxY, bb.minZ + minoffs);
-            case WEST:
-                return new StructureBoundingBox(bb.maxX - minoffs, bb.minY, bb.minZ, bb.maxX + maxoffs, bb.maxY, bb.maxZ);
-            case EAST:
-                return new StructureBoundingBox(bb.minX - maxoffs, bb.minY, bb.minZ, bb.minX + minoffs, bb.maxY, bb.maxZ);
-            case UP:
-                return new StructureBoundingBox(bb.minX, bb.maxY - minoffs, bb.minZ, bb.maxX, bb.maxY + maxoffs, bb.maxZ);
-            case DOWN:
-                return new StructureBoundingBox(bb.minX, bb.minY - maxoffs, bb.minZ, bb.maxX, bb.minY + minoffs, bb.maxZ);
-            default:
-                return new StructureBoundingBox(bb.minX - distance, bb.minY - distance, bb.minZ - distance, bb.maxX + distance, bb.maxY + distance, bb.maxZ + distance);
+        if (facing != null) {
+            switch (facing) {
+                case NORTH:
+                    return new StructureBoundingBox(bb.minX, bb.minY, bb.maxZ - minoffs, bb.maxX, bb.maxY, bb.maxZ + maxoffs);
+                case SOUTH:
+                    return new StructureBoundingBox(bb.minX, bb.minY, bb.minZ - maxoffs, bb.maxX, bb.maxY, bb.minZ + minoffs);
+                case WEST:
+                    return new StructureBoundingBox(bb.maxX - minoffs, bb.minY, bb.minZ, bb.maxX + maxoffs, bb.maxY, bb.maxZ);
+                case EAST:
+                    return new StructureBoundingBox(bb.minX - maxoffs, bb.minY, bb.minZ, bb.minX + minoffs, bb.maxY, bb.maxZ);
+                case UP:
+                    return new StructureBoundingBox(bb.minX, bb.maxY - minoffs, bb.minZ, bb.maxX, bb.maxY + maxoffs, bb.maxZ);
+                case DOWN:
+                    return new StructureBoundingBox(bb.minX, bb.minY - maxoffs, bb.minZ, bb.maxX, bb.minY + minoffs, bb.maxZ);
+            }
         }
+        return new StructureBoundingBox(bb.minX - distance, bb.minY - distance, bb.minZ - distance, bb.maxX + distance, bb.maxY + distance, bb.maxZ + distance);
     }
 
     public static StructureBoundingBox intersectionBoundingBox(StructureBoundingBox a, StructureBoundingBox b) {
@@ -106,22 +115,23 @@ public class MuonUtils {
         int midX = (bb.maxX + bb.minX) / 2;
         int midY = (bb.maxY + bb.minY) / 2;
         int midZ = (bb.maxZ + bb.minZ) / 2;
-        switch (facing) {
-            case NORTH:
-                return new BlockPos(midX, midY, bb.maxZ + distance);
-            case SOUTH:
-                return new BlockPos(midX, midY, bb.minZ - distance);
-            case WEST:
-                return new BlockPos(bb.maxX + distance, midY, midZ);
-            case EAST:
-                return new BlockPos(bb.minX - distance, midY, midZ);
-            case UP:
-                return new BlockPos(midX, bb.maxY + distance, midZ);
-            case DOWN:
-                return new BlockPos(midX, bb.minY - distance, midZ);
-            default:
-                return new BlockPos(midX, midY, midZ);
+        if (facing != null) {
+            switch (facing) {
+                case NORTH:
+                    return new BlockPos(midX, midY, bb.maxZ + distance);
+                case SOUTH:
+                    return new BlockPos(midX, midY, bb.minZ - distance);
+                case WEST:
+                    return new BlockPos(bb.maxX + distance, midY, midZ);
+                case EAST:
+                    return new BlockPos(bb.minX - distance, midY, midZ);
+                case UP:
+                    return new BlockPos(midX, bb.maxY + distance, midZ);
+                case DOWN:
+                    return new BlockPos(midX, bb.minY - distance, midZ);
+            }
         }
+        return new BlockPos(midX, midY, midZ);
     }
 
     public static BlockPos getFacingPos(StructureComponent in, int along, int across, int up) {
@@ -129,22 +139,23 @@ public class MuonUtils {
     }
 
     public static BlockPos getFacingPos(StructureBoundingBox bb, EnumFacing facing, int along, int across, int up) {
-        switch (facing) {
-            case NORTH:
-                return new BlockPos(bb.minX + across, bb.minY + up, bb.maxZ - along);
-            case SOUTH:
-                return new BlockPos(bb.minX + across, bb.minY + up, bb.minZ + along);
-            case WEST:
-                return new BlockPos(bb.maxX - along, bb.minY + up, bb.minZ + across);
-            case EAST:
-                return new BlockPos(bb.minX + along, bb.minY + up, bb.minZ + across);
-            case UP:
-                return new BlockPos(bb.minX + up, bb.maxY - along, bb.minZ + across);
-            case DOWN:
-                return new BlockPos(bb.minX + up, bb.minY + along, bb.minZ + across);
-            default:
-                return new BlockPos(bb.minX + along, bb.minY + up, bb.minZ + across);
+        if (facing != null) {
+            switch (facing) {
+                case NORTH:
+                    return new BlockPos(bb.minX + across, bb.minY + up, bb.maxZ - along);
+                case SOUTH:
+                    return new BlockPos(bb.minX + across, bb.minY + up, bb.minZ + along);
+                case WEST:
+                    return new BlockPos(bb.maxX - along, bb.minY + up, bb.minZ + across);
+                case EAST:
+                    return new BlockPos(bb.minX + along, bb.minY + up, bb.minZ + across);
+                case UP:
+                    return new BlockPos(bb.minX + up, bb.maxY - along, bb.minZ + across);
+                case DOWN:
+                    return new BlockPos(bb.minX + up, bb.minY + along, bb.minZ + across);
+            }
         }
+        return new BlockPos(bb.minX + along, bb.minY + up, bb.minZ + across);
     }
 
     public static int getFacingLength(StructureComponent in) {
@@ -152,19 +163,20 @@ public class MuonUtils {
     }
 
     public static int getFacingLength(StructureBoundingBox bb, EnumFacing facing) {
-        switch (facing) {
-            case NORTH:
-            case SOUTH:
-                return bb.maxZ - bb.minZ + 1;
-            case WEST:
-            case EAST:
-                return bb.maxX - bb.minX + 1;
-            case UP:
-            case DOWN:
-                return bb.maxY - bb.minY + 1;
-            default:
-                return bb.maxX - bb.minX + 1;
+        if (facing != null) {
+            switch (facing) {
+                case NORTH:
+                case SOUTH:
+                    return bb.maxZ - bb.minZ + 1;
+                case WEST:
+                case EAST:
+                    return bb.maxX - bb.minX + 1;
+                case UP:
+                case DOWN:
+                    return bb.maxY - bb.minY + 1;
+            }
         }
+        return bb.maxX - bb.minX + 1;
     }
 
     public static int getFacingWidth(StructureComponent in) {
@@ -172,17 +184,19 @@ public class MuonUtils {
     }
 
     public static int getFacingWidth(StructureBoundingBox bb, EnumFacing facing) {
-        switch (facing) {
-            case NORTH:
-            case SOUTH:
-                return bb.maxX - bb.minX + 1;
-            case WEST:
-            case EAST:
-            case UP:
-            case DOWN:
-            default:
-                return bb.maxZ - bb.minZ + 1;
+        if (facing != null) {
+            switch (facing) {
+                case NORTH:
+                case SOUTH:
+                    return bb.maxX - bb.minX + 1;
+                case WEST:
+                case EAST:
+                case UP:
+                case DOWN:
+                    return bb.maxZ - bb.minZ + 1;
+            }
         }
+        return bb.maxZ - bb.minZ + 1;
     }
 
     public static int getFacingHeight(StructureComponent in) {
@@ -190,18 +204,19 @@ public class MuonUtils {
     }
 
     public static int getFacingHeight(StructureBoundingBox bb, EnumFacing facing) {
-        switch (facing) {
-            case NORTH:
-            case SOUTH:
-            case WEST:
-            case EAST:
-                return bb.maxY - bb.minY + 1;
-            case UP:
-            case DOWN:
-                return bb.maxX - bb.minX + 1;
-            default:
-                return bb.maxY - bb.minY + 1;
+        if (facing != null) {
+            switch (facing) {
+                case NORTH:
+                case SOUTH:
+                case WEST:
+                case EAST:
+                    return bb.maxY - bb.minY + 1;
+                case UP:
+                case DOWN:
+                    return bb.maxX - bb.minX + 1;
+            }
         }
+        return bb.maxY - bb.minY + 1;
     }
 
     /**

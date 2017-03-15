@@ -1,0 +1,49 @@
+This is a vague list of ideas that *MAY* be implemented in the future.
+
+None of this is set in stone, and final implementations may not even
+resemble the ideas outlined here. We will, however, make some attempt
+to keep it up to date.
+
+* Control over village frequency
+  - must disable (or otherwise avoid conflict) with MoVillages.
+
+* Control over village biomes
+  - do this based on biome metadata so it works across biome types?
+  - this would make it work in modded biomes also?
+  - will need careful consideration of which metadata is selected.
+
+* Village Mines
+  - terrain dependent structure.
+  - where village road with no buildings goes into the side of a hill.
+  - will include some empty chests.
+  - needs to match with vanilla mineshafts.
+  - future "miner" villager type digs new tunnel segments under here.
+
+* Village Grove
+  - non-flat (but accessible) section of land with lots of trees in a small area.
+  - ground must be changed to dirt/grass if not already.
+  - ensures plenty of trees for future "forester" villager type.
+  - future forester villager harvests trees and replants them (with same type?)
+  - should we include forester "accomodation" and chests of some sort?
+
+* Tweaks to villager behaviour
+  - Dump excess inventories in nearby chests (farmers, miners, foresters, etc)
+  - a way to change villager professions?
+    ~ pay them with emerald block (and maybe a tool) via the trade interface?
+    ~ block could be changed to soemthing else with other mods present
+  - Finite resources?
+
+* Spawn-safing village structures?
+  - spawn-safing entire villages?
+
+* Safe tower in spawn chunk for easier early-game
+  - get into the "meat" of the game faster. No worrying about the first night
+  - great for fresh players at night in multiplayer
+
+* Consider random "larger" villages with wider roads and bigger buildings.
+  - i.e. more city-like.
+  - could generate this at spawn with the spawn tower maybe?
+
+* Consider templates for customisation of village/city buildings?
+  - Better default models of existing buildings?
+

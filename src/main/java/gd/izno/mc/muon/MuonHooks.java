@@ -56,8 +56,7 @@ public class MuonHooks {
                 case EAST:
                     maxX = villagebb.minX;
                     break;
-                default:
-                    // do nothing?
+                // UP | DOWN is do nothing
             }
         } else {
             // The main thing that ends up here should be the village wells.
@@ -217,7 +216,7 @@ public class MuonHooks {
                     if (newbs == gravel) {
                         worldIn.setBlockState(currentBlock.down(), cobblestone, 2);
                     }
-                    worldIn.setBlockState(currentBlock, newbs, 2);
+                    worldIn.setBlockState(new BlockPos(currentBlock), newbs, 2);
                 }
             }
             return false; // don't run vanilla code. we did it all!
@@ -314,7 +313,7 @@ public class MuonHooks {
             FMLLog.warning("[Muon] %s", "WARNING! got blank default height map for Feature surrounds!");
             return; // Can't do it in this dimension?
         }
-        MuonHeightMap myHeights = new MuonHeightMap(mybb);
+        MuonHeightMap myHeights = new MuonHeightMap(world, mybb);
         for (StructureComponent piece : components) {
             StructureBoundingBox piecebb = piece.getBoundingBox();
             StructureBoundingBox accessbb = MuonUtils.facingBoundingBox(piece, -2);
@@ -343,7 +342,7 @@ public class MuonHooks {
         StructureBoundingBox villagebb = start.getBoundingBox();
         StructureBoundingBox mybb = MuonUtils.growBoundingBox(villagebb, 16);
         for (StructureComponent piece : components) {
-            mybb.expandTo(MuonUtils.biasBoundingBox(piece, 4));
+            mybb.expandTo(piece.getBoundingBox());
         }
         mybb = MuonUtils.chunksBoundingBox(mybb);
         // now copy our calculated size back in so chunk generation uses it.
@@ -354,7 +353,7 @@ public class MuonHooks {
             FMLLog.warning("[Muon] %s", "WARNING! got blank default height map for Village surrounds!");
             return; // Can't do it in this dimension?
         }
-        MuonHeightMap myHeights = new MuonHeightMap(mybb);
+        MuonHeightMap myHeights = new MuonHeightMap(world, mybb);
         // set base height for well.
         int wellheight = defaultHeights.getMaxHeight(well.getBoundingBox());
         myHeights.fillEmpty(MuonUtils.growBoundingBox(well.getBoundingBox(),1),wellheight);
@@ -502,5 +501,33 @@ public class MuonHooks {
             }
         }
     }
+
+    /**
+     * Inserted in MapgenVillage$Start after villageModTerrain (which is after recalculating the bounding box).
+     *
+     * This enables terrain-dependent structures to insert themselves in a village at the last minute.
+     * the bounding box *shouldn't* change, but we recalculate again if necessary.
+     */
+    public static void terrainDependentStructures(MapGenVillage.Start start, World world, StructureVillagePieces.Start well) {
+        List<StructureComponent> components = start.getComponents();
+        StructureBoundingBox villagebb = start.getBoundingBox();
+        StructureBoundingBox wellbb = well.getBoundingBox();
+        // create our own pseudorandom to feed to various functions without using up seed.
+        Random myrand = new Random((long)(wellbb.maxX/16) ^ (wellbb.maxY/16) ^ (wellbb.maxZ/16));
+
+        if (MuonConfig.getInt("village_grove_frequency") > myrand.nextInt(100)) {
+            StructureBoundingBox grove = MuonVillageGrove.findPieceBox(well, components, myrand, villagebb.minX, villagebb.minY, villagebb.minZ, EnumFacing.NORTH);
+            if (grove != null) {
+                // work out actual grove facing? should face path, but facing well is good enough for now.
+                EnumFacing facing = EnumFacing.getFacingFromVector((float)(grove.maxX-wellbb.maxX), 0, (float)(grove.maxZ-wellbb.maxZ));
+                // do stuff to actually create grove and add it to the structure list
+                FMLLog.info("[Muon] %s", " Creating Grove "+grove+" facing "+facing);
+                components.add(new MuonVillageGrove(well, well.getComponentType(), myrand, grove, facing));
+                // expand bounding box if necessary so chunk generation uses it.
+                villagebb.expandTo(grove);
+            }
+        }
+    }
+
 
 }

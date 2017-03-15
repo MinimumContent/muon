@@ -1,0 +1,22 @@
+Muon 0.2 (Alpha) Released 2017-03-16
+* An option for Village Groves: a dense stand of trees in villages.
+* Initial pass at code for terain-dependent structures (Structures
+  added after initial village generation but before chunk creation)
+* Added option to default future features to enabled.
+* Added code to check for new Muon versions.
+* Fixed bug reading our own mcmod.info on Windows.
+* Fixed crash when encountering modded buildings without a facing.
+
+Muon 0.1 (Alpha) Released 2017-01-25
+* An option to fix for vertical building placement in villages to
+  eliminate the all too common problem of inaccessible elevated or
+  buried doors.
+* An option to fix "broken" terrain around villages, ensuring paths
+  are always accessible within a village and don't drop off the side
+  of mountains.
+* An option to use alternate path generation code to make them look
+  a bit better, and also create simple bridges across small rivers.
+* An option to ensure scattered features like temples and igloos are
+  always accessible. Igloos would sometimes spawn *INSIDE* hills.
+* No change in the number of randoms taken from the seed pool, so your
+  world seeds still generate the same world!

@@ -6,7 +6,8 @@
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "http://muon.mc.izno.gd/",
-    "updateUrl": "",
+    "updateUrl": "https://minecraft.curseforge.com/projects/muon/files",
+    "updateJSON": "https://mc.izno.gd/updates/muon.json",
     "authorList": [
       "TrinaryLogic"
     ],
