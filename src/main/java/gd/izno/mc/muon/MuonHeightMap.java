@@ -5,12 +5,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkProviderEnd;
-import net.minecraft.world.gen.ChunkProviderFlat;
-import net.minecraft.world.gen.ChunkProviderOverworld;
+import net.minecraft.world.gen.ChunkGeneratorEnd;
+import net.minecraft.world.gen.ChunkGeneratorFlat;
+import net.minecraft.world.gen.ChunkGeneratorOverworld;
 import net.minecraft.world.gen.ChunkProviderServer;
+import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraftforge.fml.common.FMLLog;
 
@@ -61,16 +61,16 @@ public class MuonHeightMap {
         } catch (Exception e) { e.printStackTrace(); }
         hm.seaLevel =  worldIn.getSeaLevel() - 1; // set sea level.
         int defaultlevel = -1;
-        if (gen instanceof ChunkProviderFlat) {
+        if (gen instanceof ChunkGeneratorFlat) {
             defaultlevel = worldIn.getSeaLevel() - 1;
         }
         for (int chunkX = (hm.mapbb.minX>>4); chunkX <= (hm.mapbb.maxX>>4); ++chunkX) {
             for (int chunkZ = (hm.mapbb.minZ>>4); chunkZ <= (hm.mapbb.maxZ>>4); ++chunkZ) {
                 ChunkPrimer primer = new ChunkPrimer();
-                if (gen instanceof ChunkProviderOverworld) {
-                    ((ChunkProviderOverworld) gen).setBlocksInChunk(chunkX, chunkZ, primer);
-                } else if (gen instanceof ChunkProviderEnd) {
-                    ((ChunkProviderEnd) gen).setBlocksInChunk(chunkX, chunkZ, primer);
+                if (gen instanceof ChunkGeneratorOverworld) {
+                    ((ChunkGeneratorOverworld) gen).setBlocksInChunk(chunkX, chunkZ, primer);
+                } else if (gen instanceof ChunkGeneratorEnd) {
+                    ((ChunkGeneratorEnd) gen).setBlocksInChunk(chunkX, chunkZ, primer);
                 } else {
                     primer = null;
                 }

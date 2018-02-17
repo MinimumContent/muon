@@ -253,7 +253,7 @@ public class MuonVillageGrove extends StructureVillagePieces.Village {
                 int yPos = built.getHeight(xPos, zPos);
                 if (yPos > 0) {
                     BlockPos here = new BlockPos(xPos, yPos+1, zPos);
-                    WorldGenAbstractTree treegen = thisbiome.genBigTreeChance(myrand);
+                    WorldGenAbstractTree treegen = thisbiome.getRandomTreeFeature(myrand);
                     int tree_selector = myrand.nextInt(32);
                     int dist = Math.min(Math.min(Math.abs(growbb.minX - xPos), Math.abs(xPos - growbb.maxX)), Math.min(Math.abs(growbb.minZ - zPos), Math.abs(zPos - growbb.maxZ)));
                     // maybe tree

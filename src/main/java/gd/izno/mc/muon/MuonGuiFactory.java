@@ -15,7 +15,6 @@ public class MuonGuiFactory implements IModGuiFactory {
 
     }
 
-    @Override
     public Class<? extends GuiScreen> mainConfigGuiClass() {
         return MuonGuiConfig.class;
     }
@@ -25,10 +24,16 @@ public class MuonGuiFactory implements IModGuiFactory {
         return null;
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
-        // This doesn't do anything, but MUST be overridden.
-        return null;
-    }
+
+	@Override
+	public boolean hasConfigGui() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public GuiScreen createConfigGui(GuiScreen parentScreen) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
