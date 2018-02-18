@@ -10,9 +10,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkProviderEnd;
-import net.minecraft.world.gen.ChunkProviderFlat;
-import net.minecraft.world.gen.ChunkProviderOverworld;
+import net.minecraft.world.gen.ChunkGeneratorEnd;
+import net.minecraft.world.gen.ChunkGeneratorFlat;
+import net.minecraft.world.gen.ChunkGeneratorOverworld;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 
@@ -296,11 +296,11 @@ public class MuonUtils {
         if (chunkX == cachedChunkX && chunkZ == cachedChunkZ && cachedChunk != null) {
             primer = cachedChunk;
         } else {
-            if (provider instanceof ChunkProviderOverworld) {
-                ((ChunkProviderOverworld)provider).setBlocksInChunk(chunkX, chunkZ, primer);
-            } else if (provider instanceof ChunkProviderEnd) {
-                ((ChunkProviderEnd) provider).setBlocksInChunk(chunkX, chunkZ, primer);
-            } else if (provider instanceof ChunkProviderFlat) {
+            if (provider instanceof ChunkGeneratorOverworld) {
+                ((ChunkGeneratorOverworld)provider).setBlocksInChunk(chunkX, chunkZ, primer);
+            } else if (provider instanceof ChunkGeneratorEnd) {
+                ((ChunkGeneratorEnd) provider).setBlocksInChunk(chunkX, chunkZ, primer);
+            } else if (provider instanceof ChunkGeneratorFlat) {
                 return worldin.getSeaLevel();
             } else {
                 return -1; // unhandled dimension.
@@ -318,9 +318,9 @@ public class MuonUtils {
 
     static Vec3d interpolatePoints(double percent, Vec3d p1, Vec3d p2) {
         return new Vec3d(
-                interpolateNums(percent, p1.xCoord, p2.xCoord),
-                interpolateNums(percent, p1.yCoord, p2.yCoord),
-                interpolateNums(percent, p1.zCoord, p2.zCoord)
+                interpolateNums(percent, p1.x, p2.x),
+                interpolateNums(percent, p1.y, p2.y),
+                interpolateNums(percent, p1.z, p2.z)
         );
     }
 
@@ -343,6 +343,6 @@ public class MuonUtils {
 
     static BlockPos interpolateBezier(double percent, BlockPos p1, BlockPos p2, BlockPos p3, BlockPos p4) {
         Vec3d next = interpolateBezier(percent, new Vec3d(p1), new Vec3d(p2), new Vec3d(p3), new Vec3d(p4));
-        return new BlockPos(Math.round(next.xCoord), Math.round(next.yCoord), Math.round(next.zCoord));
+        return new BlockPos(Math.round(next.x), Math.round(next.y), Math.round(next.z));
     }
 }
